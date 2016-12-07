@@ -15,7 +15,7 @@ var app = angular
 			$sp) {
 
 				// special cases (un comment them to use as needed)
-				// $urp.when('/dashboard','/dashboard/ship');
+				$urp.when('/dashboard','/dashboard/0/profile');
 				$urp.otherwise('/login');
 
 				// defining screens here
@@ -31,10 +31,15 @@ var app = angular
 						controller: 'loginCTRL'
 					});
 					$sp.state('dashboard', {
-						url: '/dashboard',
+						url: '/dashboard/:id',
 						parent: 'base',
 						templateUrl: 'views/dashboard.html',
 						controller: 'dashboardCTRL'
 					});
+						$sp.state('profile', {
+							url: '/profile',
+							parent: 'dashboard',
+							templateUrl: 'views/dashboard/profile.html'
+						});
 		}
 	]);

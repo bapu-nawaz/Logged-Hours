@@ -1,0 +1,48 @@
+<md-dialog aria-label="Add Hour Log">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Add Hour Log</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="fa fa-times-circle"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        {{job.helpText[job.screen]}}<br/>
+        <i style="color:#FA0000">{{job.errorMessage}}</i><br/>
+        <md-input-container flex ng-show="job.screen == 0">
+          <label>Job Name</label>
+          <input type="text" ng-model="job.details.name" />
+        </md-input-container>
+
+        <md-input-container flex ng-show="job.screen == 1">
+          <md-datepicker ng-model="job.details.date" md-placeholder="Job Date"></md-datepicker>
+        </md-input-container>
+
+        <md-input-container flex ng-show="job.screen == 2">
+          <input type="time" ng-model="job.details.start" />
+        </md-input-container>
+
+        <md-input-container flex ng-show="job.screen == 3">
+          <input type="time" ng-model="job.details.end" />
+        </md-input-container>
+
+        <md-input-container flex ng-show="job.screen == 4">
+          <label>Notes/Complains</label>
+          <input type="text" ng-model="job.details.notes" />
+        </md-input-container>
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button class="md-raised md-primary" ng-click="next()">
+       {{job.buttonText}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
