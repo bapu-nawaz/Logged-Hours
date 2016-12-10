@@ -26,3 +26,15 @@ p.note {
 	border-radius: 30px;
 	text-align: center;
 }
+
+.job-title-padding {
+	width: 30%;
+}
+
+.serial {
+  margin-right: 20px;
+}
+
+.error {
+  color: #FA0000;
+}

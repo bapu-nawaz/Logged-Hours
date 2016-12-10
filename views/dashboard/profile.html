@@ -1,5 +1,5 @@
 <div hide-sm flex-gt-sm="25" layout="column"></div>
-<div flex-sm flex-gt-sm="50" layout="column" layout-align="center"> 
+<div flex-sm flex-gt-sm="75" layout="column"> 
   <md-card>
     <md-card-title class="login-head">
       <md-card-title-text>
@@ -8,17 +8,20 @@
       </md-card-title-text>
     </md-card-title>
     <md-card-content class="md-padding">
-      <md-list-item class="md-3-line" ng-repeat="log in defaults.user.logs" ng-click="null">
-        <div class="md-avatar job-title">{{log.name.split("")[0]}}</div>
+      <md-list-item class="md-2-line" ng-repeat="log in defaults.user.logs | orderBy: ['date','start']" ng-class="{error: log.paid==2}" ng-click="showDeleteLogDialog(log)">
+        <h3 hide-sm hide-xs class="serial">{{($index+1)}})</h3>
+        <div hide-gt-sm class="md-avatar job-title">{{log.name.split("")[0]}}</div>
+        <div hide-sm hide-xs class="job-title-padding">{{log.name}}</div>
         <div class="md-list-item-text" layout="row">
             <h3 flex>{{log.date.getDate()}}/{{(log.date.getMonth()+1)}}</h3>
             <h3 flex>{{defaults.weekday[log.date.getDay()]}}</h3>
-            <h3 flex>{{log.start.getHours()}}:{{log.start.getMinutes()}}</h3>
-            <h3 flex>{{log.end.getHours()}}:{{log.end.getMinutes()}}</h3>
-            <h3 flex>{{(log.end.getHours()-log.start.getHours())}} hrs</h3>
+            <h3 flex>{{formatedHours(log.start.getHours())}}:{{formatedMinutes(log.start.getMinutes())}}</h3>
+            <h3 flex>{{formatedHours(log.end.getHours())}}:{{formatedMinutes(log.end.getMinutes())}}</h3>
+            <h3 flex>{{(log.end - log.start)/3600000}} hrs</h3>
+            <h4 flex>{{log.notes}}</h4>
         </div>
       </md-list-item>
-      <div ng-if="defaults.user.logs == null">There are no pending hours to be Paid.</div>
+      <div ng-if="defaults.user.logs == null || defaults.user.logs.length == 0">There are no pending hours to be Paid.</div>
     </md-card-content>
   </md-card>
 </div>

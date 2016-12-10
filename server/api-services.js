@@ -3,21 +3,35 @@ app.factory("API",[
 	function ($http, $q) {
 
 		function API() {
-			var server = "server/web-scripts";
-			this.loginURL = server + "/login.php";
-			this.userDetailsURL = server + "/userInfo.php";
-			this.addLog = server + "/addLog.php";
+			var server 				= "server/web-scripts";
+			this.addLogURL 			= server + "/addLog.php";
+			this.changePasswordURL 	= server + "/changePassword.php";
+			this.deleteLogURL 		= server + "/deleteLog.php";
+			this.loginURL 			= server + "/login.php";
+			this.userDetailsURL 	= server + "/userInfo.php";
 		};
 
-		API.prototype.login = function(data) {
-			var url = this.loginURL + data;
-			var deferred = $q.defer();
-			
-			get(url).then(function(response){
-				deferred.resolve(response);
-			});
+		API.prototype.addLog = function(data) {
+			var url = this.addLogURL + 
+					"?name=" + data.name +
+					"&date=" + data.date +
+					"&start="+ data.start +
+					"&end="  + data.end+
+					"&notes="+ data.notes+
+					"&user=" + data.user;
+			return get(url);
+		};
 
-			return deferred.promise;
+		API.prototype.changePassword = function(data) {
+			var url = this.changePasswordURL +
+					"?id=" + data.id +
+					"&pass=" + data.pass;
+			return get(url); 
+		};
+
+		API.prototype.deleteLog = function(logID) {
+			var url = this.deleteLogURL + "?id=" + logID;
+			return get(url);
 		};
 
 		API.prototype.getUserDetailsByID = function(id) {
@@ -25,14 +39,8 @@ app.factory("API",[
 			return get(url);
 		};
 
-		API.prototype.addLog = function(data) {
-			var url = this.userDetailsURL + 
-					"?name=" + data.name +
-					"&date=" + data.date +
-					"&start="+ data.start +
-					"&end="  + data.end+
-					"&notes="+ data.notes+
-					"&user=" + data.user;
+		API.prototype.login = function(data) {
+			var url = this.loginURL + data;
 			return get(url);
 		};
 

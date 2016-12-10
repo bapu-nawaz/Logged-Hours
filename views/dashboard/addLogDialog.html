@@ -5,7 +5,7 @@
         <h2>Add Hour Log</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
-          <i class="fa fa-times-circle"></i>
+          <md-icon md-svg-src="assets/svg/multiply.svg"></md-icon>
         </md-button>
       </div>
     </md-toolbar>
@@ -14,24 +14,24 @@
       <div class="md-dialog-content">
         {{job.helpText[job.screen]}}<br/>
         <i style="color:#FA0000">{{job.errorMessage}}</i><br/>
-        <md-input-container flex ng-show="job.screen == 0">
+        <md-input-container flex ng-show="job.screen == 0" layout="row">
           <label>Job Name</label>
           <input type="text" ng-model="job.details.name" />
         </md-input-container>
 
-        <md-input-container flex ng-show="job.screen == 1">
+        <md-input-container flex ng-show="job.screen == 1" layout="row">
           <md-datepicker ng-model="job.details.date" md-placeholder="Job Date"></md-datepicker>
         </md-input-container>
 
-        <md-input-container flex ng-show="job.screen == 2">
+        <md-input-container flex ng-show="job.screen == 2" layout="row">
           <input type="time" ng-model="job.details.start" />
         </md-input-container>
 
-        <md-input-container flex ng-show="job.screen == 3">
+        <md-input-container flex ng-show="job.screen == 3" layout="row">
           <input type="time" ng-model="job.details.end" />
         </md-input-container>
 
-        <md-input-container flex ng-show="job.screen == 4">
+        <md-input-container flex ng-show="job.screen == 4" layout="row">
           <label>Notes/Complains</label>
           <input type="text" ng-model="job.details.notes" />
         </md-input-container>

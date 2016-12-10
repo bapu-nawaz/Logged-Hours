@@ -1,0 +1,25 @@
+<md-dialog aria-label="Delete Log">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Delete Log</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="assets/svg/multiply.svg"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <i style="color:#FA0000">Are you sure to delete this cleaning log at {{log.name}}</i><br/>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button class="md-raised md-warn" ng-click="done()">
+       Delete
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
