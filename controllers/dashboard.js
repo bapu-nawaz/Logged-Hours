@@ -12,9 +12,11 @@ app.controller('dashboardCTRL', [
 			'weekday': ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 			'nav': {
 				'list': [
+					{"name": "My Paid Hours", "icon": "assets/svg/clock.svg", "action":2},
 					{"name": "Change Password", "icon": "assets/svg/settings.svg", "action":0},
 					{"name": "Logout", "icon": "assets/svg/logout.svg", "action":1}
-				]
+				],
+				'paidHours': false
 			}
 		};
 
@@ -30,6 +32,8 @@ app.controller('dashboardCTRL', [
 				$scope.defaults.user.logs[i].date = new Date($scope.defaults.user.logs[i].date);
 				$scope.defaults.user.logs[i].start= new Date($scope.defaults.user.logs[i].start);
 				$scope.defaults.user.logs[i].end  = new Date($scope.defaults.user.logs[i].end);
+				if($scope.defaults.user.logs[i].paid_date != null)
+					$scope.defaults.user.logs[i].paid_date = new Date($scope.defaults.user.logs[i].paid_date);
 			}
 			printInfo("setLog", "Done");
 		}
@@ -51,6 +55,11 @@ app.controller('dashboardCTRL', [
 
 				case 1:
 					$location.path('/login');
+					break;
+
+				case 2:
+					$scope.defaults.nav.paidHours = !$scope.defaults.nav.paidHours;
+					$scope.defaults.nav.list[0].name = (!$scope.defaults.nav.paidHours) ? "My Paid Hours" : "My Unpaid Hours";
 					break;
 
 				default:
@@ -275,6 +284,18 @@ app.controller('dashboardCTRL', [
 		        .position('bottom right')
 		        .hideDelay(3000)
 		    );
+		}
+
+		$scope.unpaidLogs = function(logs) {
+			return logs.paid == 0;
+		}
+
+		$scope.paidLogs = function(logs) {
+			return logs.paid == 1;
+		}
+
+		$scope.pendingLogs = function(logs) {
+			return logs.paid == 2 || logs.paid == 3;
 		}
 
 		getUserDetails();
