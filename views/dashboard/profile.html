@@ -1,18 +1,43 @@
 <div hide-sm flex-gt-sm="25" layout="column"></div>
-<div flex-sm flex-gt-sm="75" layout="column"> 
+<div flex-sm flex-gt-sm layout="column" ng-show="defaults.nav.paidHours"> 
   <md-card>
     <md-card-title class="login-head">
       <md-card-title-text>
-        <span class="md-headline">Unpaid Hours</span>
+        <span class="md-headline">Paid Hours</span>
         <span class="md-subhead error" ng-show="defaults.error.status">{{defaults.error.message}}</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content class="md-padding">
-      <md-list-item class="md-2-line" ng-repeat="log in defaults.user.logs | orderBy: ['date','start']" ng-class="{error: log.paid==2}" ng-click="showDeleteLogDialog(log)">
+      <md-list-item class="md-2-line" ng-repeat="log in defaults.user.logs | filter: paidLogs | orderBy: ['paid_date','date','start']" ng-click="null">
         <h3 hide-sm hide-xs class="serial">{{($index+1)}})</h3>
         <div hide-gt-sm class="md-avatar job-title">{{log.name.split("")[0]}}</div>
         <div hide-sm hide-xs class="job-title-padding">{{log.name}}</div>
         <div class="md-list-item-text" layout="row">
+            <h3 flex>{{log.date.getDate()}}/{{(log.date.getMonth()+1)}}</h3>
+            <h3 flex>{{defaults.weekday[log.date.getDay()]}}</h3>
+            <h3 flex><b>{{log.paid_date.getDate()}}/{{(log.paid_date.getMonth()+1)}}</b></h3>
+            <h3 flex>{{(log.end - log.start)/3600000}} hrs</h3>
+            <h4 flex>{{log.notes}}</h4>
+        </div>
+      </md-list-item>
+      <div ng-if="unpaidLogs.length == 0">There are no pending hours to be Shown.</div>
+    </md-card-content>
+  </md-card>
+</div>
+<div flex-sm flex-gt-sm layout="column" ng-show="!defaults.nav.paidHours"> 
+  <md-card>
+    <md-card-title class="login-head">
+      <md-card-title-text>
+        <span class="md-headline">Confirmed Unpaid Hours</span>
+        <span class="md-subhead error" ng-show="defaults.error.status">{{defaults.error.message}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content class="md-padding">
+      <md-list-item class="md-2-line" ng-repeat="log in defaults.user.logs | filter: unpaidLogs | orderBy: ['date','start']" ng-click="showDeleteLogDialog(log)">
+        <h3 hide-sm hide-xs class="serial" ng-click="showDeleteLogDialog(log)">{{($index+1)}})</h3>
+        <div hide-gt-sm class="md-avatar job-title" ng-click="showDeleteLogDialog(log)">{{log.name.split("")[0]}}</div>
+        <div hide-sm hide-xs class="job-title-padding" ng-click="showDeleteLogDialog(log)">{{log.name}}</div>
+        <div class="md-list-item-text" layout="row" ng-click="showDeleteLogDialog(log)">
             <h3 flex>{{log.date.getDate()}}/{{(log.date.getMonth()+1)}}</h3>
             <h3 flex>{{defaults.weekday[log.date.getDay()]}}</h3>
             <h3 flex>{{formatedHours(log.start.getHours())}}:{{formatedMinutes(log.start.getMinutes())}}</h3>
@@ -21,7 +46,33 @@
             <h4 flex>{{log.notes}}</h4>
         </div>
       </md-list-item>
-      <div ng-if="defaults.user.logs == null || defaults.user.logs.length == 0">There are no pending hours to be Paid.</div>
+      <div ng-if="unpaidLogs.length == 0">There are no pending hours to be Paid.</div>
+    </md-card-content>
+  </md-card>
+</div>
+<div flex-sm flex-gt-sm layout="column" ng-show="!defaults.nav.paidHours"> 
+  <md-card>
+    <md-card-title class="login-head">
+      <md-card-title-text>
+        <span class="md-headline">Pending Hours</span>
+        <span class="md-subhead error" ng-show="defaults.error.status">{{defaults.error.message}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content class="md-padding">
+      <md-list-item class="md-2-line" ng-repeat="log in defaults.user.logs | filter: pendingLogs | orderBy: ['date','start']" ng-class="{error: log.paid==3}" ng-click="showDeleteLogDialog(log)">
+        <h3 hide-sm hide-xs class="serial" ng-click="showDeleteLogDialog(log)">{{($index+1)}})</h3>
+        <div hide-gt-sm class="md-avatar job-title" ng-class="{error: log.paid==3}" ng-click="showDeleteLogDialog(log)">{{log.name.split("")[0]}}</div>
+        <div hide-sm hide-xs class="job-title-padding" ng-click="showDeleteLogDialog(log)">{{log.name}}</div>
+        <div class="md-list-item-text" layout="row" ng-click="showDeleteLogDialog(log)">
+            <h3 flex>{{log.date.getDate()}}/{{(log.date.getMonth()+1)}}</h3>
+            <h3 flex>{{defaults.weekday[log.date.getDay()]}}</h3>
+            <h3 flex>{{formatedHours(log.start.getHours())}}:{{formatedMinutes(log.start.getMinutes())}}</h3>
+            <h3 flex>{{formatedHours(log.end.getHours())}}:{{formatedMinutes(log.end.getMinutes())}}</h3>
+            <h3 flex>{{(log.end - log.start)/3600000}} hrs</h3>
+            <h4 flex>{{log.notes}}</h4>
+        </div>
+      </md-list-item>
+      <div ng-if="pendingLogs.length == 0">There are no pending hours to be Paid.</div>
     </md-card-content>
   </md-card>
 </div>

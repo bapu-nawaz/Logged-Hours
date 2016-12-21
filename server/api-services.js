@@ -5,9 +5,14 @@ app.factory("API",[
 		function API() {
 			var server 				= "server/web-scripts";
 			this.addLogURL 			= server + "/addLog.php";
+			this.approveLogURL		= server + "/approveLog.php";
 			this.changePasswordURL 	= server + "/changePassword.php";
 			this.deleteLogURL 		= server + "/deleteLog.php";
+			this.disapproveLogURL 	= server + "/disapproveLog.php";
 			this.loginURL 			= server + "/login.php";
+			this.multiPayURL		= server + "/multiPay.php?id=";
+			this.singlePayURL		= server + "/singlePay.php?id=";
+			this.unconfirmedHoursURL= server + "/unconfirmedHours.php";
 			this.userDetailsURL 	= server + "/userInfo.php";
 		};
 
@@ -22,6 +27,12 @@ app.factory("API",[
 			return get(url);
 		};
 
+		API.prototype.approveLog = function(data) {
+			var url = this.approveLogURL +
+					"?id=" + data.id;
+			return get(url); 
+		};
+
 		API.prototype.changePassword = function(data) {
 			var url = this.changePasswordURL +
 					"?id=" + data.id +
@@ -34,6 +45,17 @@ app.factory("API",[
 			return get(url);
 		};
 
+		API.prototype.disapproveLog = function(data) {
+			var url = this.disapproveLogURL +
+					"?id=" + data.id +
+					"&comment=" + data.comment;
+			return get(url); 
+		};
+
+		API.prototype.getUnconfirmedHours = function() {
+			return get( this.unconfirmedHoursURL );
+		};
+
 		API.prototype.getUserDetailsByID = function(id) {
 			var url = this.userDetailsURL + "?id=" + id;
 			return get(url);
@@ -41,6 +63,17 @@ app.factory("API",[
 
 		API.prototype.login = function(data) {
 			var url = this.loginURL + data;
+			return get(url);
+		};
+
+		API.prototype.multiPay = function(id) {
+			printInfo("MP:","API Called");
+			var url = this.multiPayURL + id + "&date=" + new Date().toISOString();
+			return get(url);
+		};
+
+		API.prototype.singlePay = function(id) {
+			var url = this.singlePayURL + id + "&date=" + new Date().toISOString();
 			return get(url);
 		};
 

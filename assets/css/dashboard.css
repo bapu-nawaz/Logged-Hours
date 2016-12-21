@@ -26,6 +26,9 @@ p.note {
 	border-radius: 30px;
 	text-align: center;
 }
+.job-title.error {
+  border: 1px solid #FA0000 !important;
+}
 
 .job-title-padding {
 	width: 30%;
@@ -37,4 +40,8 @@ p.note {
 
 .error {
   color: #FA0000;
+}
+
+.info {
+  color: #3f51b5;
 }

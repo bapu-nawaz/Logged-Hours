@@ -1,0 +1,21 @@
+.card-display {
+	display: inline-block;
+}
+
+div.table-heading span {
+	color: #000000;
+	font-weight: bold;
+	font-size: 30px;
+	text-transform: uppercase;
+	margin-bottom: 20px;
+}
+
+div.md-list-item-text h3 {
+	font-weight: normal;
+}
+
+.log-details {
+	font-size: 20px;
+	display: inline-block;
+	padding: 5px;
+}

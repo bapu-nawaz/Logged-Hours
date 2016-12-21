@@ -30,6 +30,12 @@ var app = angular
 						templateUrl: 'views/login.html',
 						controller: 'loginCTRL'
 					});
+					$sp.state('admin', {
+						url: '/admin',
+						parent: 'base',
+						templateUrl: 'views/admin/overview.html',
+						controller: 'adminCTRL'
+					});
 					$sp.state('dashboard', {
 						url: '/dashboard/:id',
 						parent: 'base',
