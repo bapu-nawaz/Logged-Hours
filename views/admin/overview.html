@@ -40,7 +40,7 @@
 			    			<h3 flex="25">{{log.emp}}</h3>
 			    			<h3 flex="30">{{log.name}}</h3>
 			    			<h3 flex="15">{{workedHours(log.end-log.start)}}</h3>
-			    			<div flex="15" layout="row">
+			    			<div flex="15" layout="row" layout-sm="column" layout-xs="column">
 			    				<md-button class="md-fab md-raised md-primary" ng-click="approveLog(log.id)">
 					          <md-tooltip md-direction="top" md-visible="tooltipVisible">Approve</md-tooltip>
 					          <md-icon md-svg-src="assets/svg/check.svg" aria-label="check"></md-icon>
@@ -55,7 +55,7 @@
 			    </md-card-content>
 			  </md-card>
 			  
-			  <md-card class="card-display" ng-repeat="employee in defaults.employees | orderBy: 'name'" ng-show="count>0">
+			  <md-card class="card-display" ng-repeat="employee in defaults.employees | orderBy: 'name'">
 			    <md-card-title class="login-head">
 			      <md-card-title-text layout="row" layout-align="space-between center">
 			        <span class="md-headline">{{employee.name}}</span>
@@ -82,12 +82,12 @@
 			    			<h3 flex="25">{{log.name}}</h3>
 			    			<h3 flex="10">{{workedHours(log.end-log.start)}}</h3>
 			    			<h3 flex="30">{{log.notes}}</h3>
-			    			<h3 flex="10">${{(((log.end-log.start)/3600000)*15)}}</h3>
-			    			<div flex="10" layout="row">
+			    			<h3 flex="10">${{(((log.end-log.start)/3600000)*employee.rate)}}</h3>
+			    			<div flex="10" layout="row" class="pay">
 			    				<md-button class="md-fab md-raised md-primary" ng-click="singlePay(log.id)">
-					          <md-tooltip md-direction="top" md-visible="tooltipVisible">Pay</md-tooltip>
-					          <md-icon md-svg-src="assets/svg/pay.svg" aria-label="check"></md-icon>
-				          </md-button>
+						            <md-tooltip md-direction="top" md-visible="tooltipVisible">Pay</md-tooltip>
+						            <md-icon md-svg-src="assets/svg/pay.svg" aria-label="check"></md-icon>
+					            </md-button>
 			    			</div>
 			    		</div>
 			    	</md-list-item>
@@ -97,7 +97,7 @@
 			    			<h3 flex="25">{{filtered.length}}</h3>
 			    			<h3 flex="10">{{workedHours(employee.hours*3600000)}}</h3>
 			    			<h3 flex="30"></h3>
-			    			<h3 flex="10">${{(employee.hours*15)}}</h3>
+			    			<h3 flex="10">${{(employee.hours*employee.rate)}}</h3>
 			    			<h3 flex="10"></h3>
 			    		</div>
 			    	</md-list-item>

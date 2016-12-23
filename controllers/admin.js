@@ -87,7 +87,7 @@ app.controller('adminCTRL', [
 				if( index != -1 ) {
 					employees[index].list.push($scope.defaults.unconfirmed[i]);
 				} else {
-					employees.push({"name": $scope.defaults.unconfirmed[i].emp, "list": [], "hours": 0, "count": 0});
+					employees.push({"name": $scope.defaults.unconfirmed[i].emp, "list": [], "hours": 0, "rate": $scope.defaults.unconfirmed[i].rate});
 					i--;
 				}
 			}
@@ -99,6 +99,7 @@ app.controller('adminCTRL', [
 				$scope.defaults.unconfirmed = response;
 				setDates();
 				groupedList();
+				printInfo("Grouped List", $scope.defaults.employees);
 			});
 		}
 
@@ -139,7 +140,7 @@ app.controller('adminCTRL', [
 				for (var j = 0; j < array[i].list.length; j++) 
 					if(array[i].list[j].paid == 0) {
 						array[i].hours += (array[i].list[j].end - array[i].list[j].start)/3600000;
-						arra[i].count++;
+						array[i].count++;
 					}
 			return array;
 		}
