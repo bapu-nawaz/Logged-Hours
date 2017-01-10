@@ -1,108 +1,140 @@
-<md-toolbar layout="row">
-	<md-button class="menu" ng-click="toggleSideNav()" hide-gt-sm>
-		<md-icon md-svg-src="assets/svg/menu.svg"></md-icon>
-	</md-button>
-	<h1 hide show-gt-md style="width:100%; text-align:center"> Admin Panel </h1>
-	<h3 hide-gt-sm style="width:100%; text-align:center"> Admin Panel </h3>
-</md-toolbar>
-<div layout="row">
-	<md-sidenav layout="column" flex="20" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z2 flexed">
-		<md-list>
-			<md-list-item ng-repeat="navItem in defaults.nav.list">
-				<md-button ng-click="navItemClick(navItem.action)" ng-class="{selected: navItem.id == defaults.selectedNavId}">
-					<md-icon md-svg-src="{{navItem.icon}}"></md-icon> {{navItem.name}}
-				</md-button>
-			</md-list-item>
-		</md-list>
-	</md-sidenav>
+<div layout="column" layout-fill flex>
+	<md-toolbar layout="row">
+		<md-button class="menu" ng-click="toggleSideNav()" hide-gt-sm>
+			<md-icon md-svg-src="assets/svg/menu.svg"></md-icon>
+		</md-button>
+		<h1 hide show-gt-md style="width:100%; text-align:center"> Admin Panel </h1>
+		<h3 hide-gt-sm style="width:100%; text-align:center"> Admin Panel </h3>
+	</md-toolbar>
+	<div layout="row" flex>
+		<md-sidenav layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" class="md-sidenav-left md-whiteframe-z2">
+			<md-content>
+				<md-list>
+					<md-list-item ng-repeat="navItem in defaults.nav.list">
+						<md-button ng-click="navItemClick(navItem.action)" ng-class="{selected: navItem.id == defaults.selectedNavId}">
+							<md-icon md-svg-src="{{navItem.icon}}"></md-icon> {{navItem.name}}
+						</md-button>
+					</md-list-item>
+				</md-list>
+			</md-content>
+		</md-sidenav>
 
-	<md-content	id="content" flex layout="column">
-			<div layout="column" flex="80">
-			  <md-card class="card-display" ng-if="defaults.unconfirmedCount > 0">
-			    <md-card-title class="login-head">
-			      <md-card-title-text>
-			        <span class="md-headline">UnConfirmed Hours</span>
-			        <span class="md-subhead error" ng-show="defaults.error.status">{{defaults.error.message}}</span>
-			      </md-card-title-text>
-			    </md-card-title>
-			    <md-card-content class="md-padding">
-			    	<div layout="row" class="table-heading">
-			    		<span flex="15">Date</span>
-			    		<span flex="25">Employee</span>
-			    		<span flex="30">Place</span>
-			    		<span flex="15">Hours</span>
-			    		<span flex="15">Action</span>
-			    	</div>
-			    	<md-list-item ng-repeat="log in defaults.unconfirmed | filter: {paid: 2}">
-			    		<md-tooltip md-direction="top" md-visible="tooltipVisible" class="log-details">Start({{log.start.getHours()}}:{{log.start.getMinutes()}}) - End({{log.end.getHours()}}:{{log.end.getMinutes()}}) => {{log.notes}}</md-tooltip>
-			    		<div flex class="md-list-item-text" layout="row">
-			    			<h3 flex="15">{{log.date.getDate()}}/{{log.date.getMonth()+1}}</h3>
-			    			<h3 flex="25">{{log.emp}}</h3>
-			    			<h3 flex="30">{{log.name}}</h3>
-			    			<h3 flex="15">{{workedHours(log.end-log.start)}}</h3>
-			    			<div flex="15" layout="row" layout-sm="column" layout-xs="column">
-			    				<md-button class="md-fab md-raised md-primary" ng-click="approveLog(log.id)">
-					          <md-tooltip md-direction="top" md-visible="tooltipVisible">Approve</md-tooltip>
-					          <md-icon md-svg-src="assets/svg/check.svg" aria-label="check"></md-icon>
-				          </md-button>
-			    				<md-button class="md-fab md-raised md-warn" ng-click="disapproveLog(log)">
-					          <md-tooltip md-direction="top" md-visible="tooltipVisible">Disapprove</md-tooltip>
-					          <md-icon md-svg-src="assets/svg/multiply.svg" aria-label="cross"></md-icon>
-				          </md-button>
-			    			</div>
-			    		</div>
-			    	</md-list-item>
-			    </md-card-content>
-			  </md-card>
-			  
-			  <md-card class="card-display" ng-repeat="employee in defaults.employees | orderBy: 'name'">
-			    <md-card-title class="login-head">
-			      <md-card-title-text layout="row" layout-align="space-between center">
-			        <span class="md-headline">{{employee.name}}</span>
-			        <span class="md-subhead error" ng-show="defaults.error.status">{{defaults.error.message}}</span>
-			        <md-button class="md-raised md-fab" ng-click="multiPay(employee.list[0].id)">
-			        	<md-tooltip md-direction="top" md-visible="tooltipVisible">Pay All</md-tooltip>
-			        	<md-icon md-svg-src="assets/svg/pay_all.svg"></md-icon>
-			        </md-button>
-			      </md-card-title-text>
-			    </md-card-title>
-			    <md-card-content class="md-padding">
-			    	<div layout="row" class="table-heading">
-			    		<span flex="15">Date</span>
-			    		<span flex="25">Place</span>
-			    		<span flex="10">Hours</span>
-			    		<span flex="30">Notes</span>
-			    		<span flex="10">Dues</span>
-			    		<span flex="5">Action</span>
-			    	</div>
-			    	<md-list-item ng-repeat="log in filtered = (employee.list | filter: {paid: 0})">
-			    		<md-tooltip md-direction="top" md-visible="tooltipVisible" class="log-details">Start({{log.start.getHours()}}:{{log.start.getMinutes()}}) - End({{log.end.getHours()}}:{{log.end.getMinutes()}})</md-tooltip>
-			    		<div flex class="md-list-item-text" layout="row">
-			    			<h3 flex="15">{{log.date.getDate()}}/{{log.date.getMonth()+1}}</h3>
-			    			<h3 flex="25">{{log.name}}</h3>
-			    			<h3 flex="10">{{workedHours(log.end-log.start)}}</h3>
-			    			<h3 flex="30">{{log.notes}}</h3>
-			    			<h3 flex="10">${{(((log.end-log.start)/3600000)*employee.rate)}}</h3>
-			    			<div flex="10" layout="row" class="pay">
-			    				<md-button class="md-fab md-raised md-primary" ng-click="singlePay(log.id)">
-						            <md-tooltip md-direction="top" md-visible="tooltipVisible">Pay</md-tooltip>
-						            <md-icon md-svg-src="assets/svg/pay.svg" aria-label="check"></md-icon>
-					            </md-button>
-			    			</div>
-			    		</div>
-			    	</md-list-item>
-			    	<md-list-item>
-			    		<div flex layout="row">
-			    			<h3 flex="15">Total</h3>
-			    			<h3 flex="25">{{filtered.length}}</h3>
-			    			<h3 flex="10">{{workedHours(employee.hours*3600000)}}</h3>
-			    			<h3 flex="30"></h3>
-			    			<h3 flex="10">${{(employee.hours*employee.rate)}}</h3>
-			    			<h3 flex="10"></h3>
-			    		</div>
-			    	</md-list-item>
-			    </md-card-content>
-			  </md-card>
-			</div>
-	</md-content>
+		<md-content flex>
+			<md-tabs md-dynamic-height md-border-bottom>
+				<md-tab ng-repeat="tab in defaults.employeesList" label="{{tab.name}}" ng-click="defaults.employeeRate=tab.rate; selectEmployee(tab.id)">
+    	    <md-content class="md-padding">
+    	    	<div layout="row">
+    	    		<div layout="column" flex="40">
+	    	    		<h4>{{tab.name}}</h4>
+		    	    	<table>
+		    	    		<tbody>
+		    	    			<tr><td>Mail:</td><td>{{tab.mail}}</td></tr>
+		    	    			<tr><td>Rate:</td><td>${{tab.rate}}</td></tr>
+		    	    			<tr><td>ABN:</td><td>{{tab.abn}}</td></tr>
+		    	    		</tbody>
+		    	    	</table>
+		    	    </div>
+		    	    <div layout="column" ng-if="defaults.selectedLog">
+		    	    	<u style="font-weight: bold;">Log Details</u>
+		    	    	<table>
+		    	    		<tbody>
+		    	    			<tr><td>Date:</td><td>{{formattedDate(defaults.selectedLog.date)}}</td></tr>
+		    	    			<tr><td>Start Time:</td><td>{{formattedTime(defaults.selectedLog.start)}}</td></tr>
+		    	    			<tr><td>End Time:</td><td>{{formattedTime(defaults.selectedLog.end)}}</td></tr>
+		    	    			<tr><td>Place:</td><td>{{defaults.selectedLog.name}}</td></tr>
+		    	    			<tr><td>Notes:</td><td>{{defaults.selectedLog.notes}}</td></tr>
+		    	    			<tr><td>Status:</td><td>{{getLogStatus(defaults.selectedLog.paid)}}</td></tr>
+		    	    		</tbody>
+		    	    	</table>
+		    	    </div>
+	    	    </div>
+    	    	<md-tabs>
+    	    		<md-tab>
+    	    			<md-tab-label> Un-Paid Hours ({{employeesHourCount('0')}}) </md-tab-label>
+    	    			<md-tab-body layout="column" flex>
+    	    				<md-card>
+    	    					<md-card-content layout-padding>
+    	    					<div layout="row" class="table-heading">
+								    		<span flex="15">Date</span>
+								    		<span flex="25">Place</span>
+								    		<span flex="15">Hours</span>
+								    		<span flex="30">Notes</span>
+								    		<span flex="15">Action</span>
+								    	</div>
+								    	<md-list-item ng-repeat="log in filtered = (defaults.employeeHours | filter: {paid: 0}) | orderBy: 'date'" ng-click="defaults.selectedLog=log">
+								    		<div flex class="md-list-item-text" layout="row">
+								    			<h3 flex="15">{{log.date.getDate()}}/{{log.date.getMonth()+1}}</h3>
+								    			<h3 flex="25">{{log.name}}</h3>
+								    			<h3 flex="10">{{workedHours(log.end-log.start)}}</h3>
+								    			<h3 flex="30">{{log.notes}}</h3>
+								    			<h3 flex="10">${{(((log.end-log.start)/3600000)*tab.rate)}}</h3>
+								    			<div flex="10" layout="row" class="pay">
+								    				<md-button class="md-fab md-primary" ng-click="singlePay(log.id)">
+											            <md-tooltip md-direction="top" md-visible="tooltipVisible">Pay</md-tooltip>
+											            <md-icon md-svg-src="assets/svg/pay.svg" aria-label="check"></md-icon>
+										            </md-button>
+								    			</div>
+								    		</div>
+								    	</md-list-item>
+								    	<md-list-item ng-if="filtered.length>0">
+								    		<div flex layout="row">
+								    			<h3 flex="15">Total</h3>
+								    			<h3 flex="25">{{filtered.length}}</h3>
+								    			<h3 flex="10">{{workedHours(getTotalWorkingHours()*3600000)}}</h3>
+								    			<h3 flex="30"></h3>
+								    			<h3 flex="10">${{(getTotalWorkingHours()*tab.rate)}}</h3>
+								    			<div flex="10" layout="row" class="pay">
+								    				<md-button class="md-fab" ng-click="multiPay(tab.id)">
+											            <md-tooltip md-direction="top" md-visible="tooltipVisible">Pay All</md-tooltip>
+											            <md-icon md-svg-src="assets/svg/pay.svg" aria-label="check"></md-icon>
+										            </md-button>
+								    			</div>
+								    		</div>
+								    	</md-list-item>
+    	    					</md-card-content>
+    	    				</md-card>
+								</md-tab-body>
+    	    		</md-tab>
+    	    		<md-tab ng-repeat="item in ['2','1','3']">
+    	    			<md-tab-label> {{getLogStatus(item)}} Hours ({{employeesHourCount(item)}}) </md-tab-label>
+    	    			<md-tab-body layout="column" flex>
+    	    				<md-card>
+    	    					<md-card-content layout-padding>
+    	    					<div layout="row" class="table-heading">
+								    		<span flex="15">Date</span>
+								    		<span flex="25">Place</span>
+								    		<span flex="30">Notes</span>
+								    		<span flex="15">Hours</span>
+								    		<span flex="15" ng-if="item=='2'">Action</span>
+								    		<span flex="15" ng-if="item!='2'">Status</span>
+								    	</div>
+								    	<md-list-item ng-repeat="log in defaults.employeeHours | filter: {paid: item} | orderBy: 'date'" ng-click="defaults.selectedLog = log">
+								    		<div flex class="md-list-item-text" layout="row">
+								    			<h3 flex="15">{{formattedDate(log.date)}}</h3>
+								    			<h3 flex="25">{{log.name}}</h3>
+								    			<h3 flex="30">{{log.notes}}</h3>
+								    			<h3 flex="15">{{workedHours(log.end-log.start)}}</h3>
+								    			<h3 flex="15" layout="row" layout-sm="column" layout-xs="column" ng-if="log.paid!=2">{{getLogStatus(item)}}</h3>
+								    			<div flex="15" layout="row" layout-sm="column" layout-xs="column" ng-if="log.paid==2">
+								    				<md-button class="md-fab md-raised md-primary" ng-click="approveLog(log.id)">
+										          <md-tooltip md-direction="top" md-visible="tooltipVisible">Approve</md-tooltip>
+										          <md-icon md-svg-src="assets/svg/check.svg" aria-label="check"></md-icon>
+									          </md-button>
+								    				<md-button class="md-fab md-raised md-warn" ng-click="disapproveLog(log)">
+										          <md-tooltip md-direction="top" md-visible="tooltipVisible">Disapprove</md-tooltip>
+										          <md-icon md-svg-src="assets/svg/multiply.svg" aria-label="cross"></md-icon>
+									          </md-button>
+								    			</div>
+								    		</div>
+								    	</md-list-item>
+    	    					</md-card-content>
+    	    				</md-card>
+								</md-tab-body>
+    	    		</md-tab>
+    	    	</md-tabs>
+  	      </md-content>
+	      </md-tab>				
+			</md-tabs>
+		</md-content>
+	</div>
 </div>

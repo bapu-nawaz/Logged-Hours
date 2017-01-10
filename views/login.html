@@ -14,19 +14,21 @@
 				</md-card-title-text>
 			</md-card-title>
 			<md-card-content>
-				<div layout="row">
-					<md-input-container flex>
-						<label>Username</label>
-						<input type="text" name="username" ng-model="defaults.login.user" />
-					</md-input-container>
-				</div>
-				<div layout="row">
-					<md-input-container flex>
-						<label>Password</label>
-						<input type="password" name="password" ng-model="defaults.login.pass" />
-					</md-input-container>
-				</div>
-	      <md-button class="md-raised md-primary" layout-align="end-center" ng-click="login()">Sign in</md-button>
+				<form name="loginForm" ng-submit="login()">
+					<div layout="row">
+						<md-input-container flex>
+							<label>Username</label>
+							<input type="text" name="username" ng-model="defaults.login.user" />
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container flex>
+							<label>Password</label>
+							<input type="password" name="password" ng-model="defaults.login.pass" />
+						</md-input-container>
+					</div>
+		      <md-button class="md-raised md-primary" layout-align="end-center" type="submit">Sign in</md-button>
+		     </form>
 			</md-card-content>
 		</md-card>
 	</div>

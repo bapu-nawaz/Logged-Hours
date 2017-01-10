@@ -9,7 +9,9 @@ app.factory("API",[
 			this.changePasswordURL 	= server + "/changePassword.php";
 			this.deleteLogURL 		= server + "/deleteLog.php";
 			this.disapproveLogURL 	= server + "/disapproveLog.php";
+			this.employeeListURL 	= server + "/employeeList.php";
 			this.loginURL 			= server + "/login.php";
+			this.logListURL			= server + "/logList.php";
 			this.multiPayURL		= server + "/multiPay.php?id=";
 			this.singlePayURL		= server + "/singlePay.php?id=";
 			this.unconfirmedHoursURL= server + "/unconfirmedHours.php";
@@ -42,6 +44,15 @@ app.factory("API",[
 
 		API.prototype.deleteLog = function(logID) {
 			var url = this.deleteLogURL + "?id=" + logID;
+			return get(url);
+		};
+
+		API.prototype.employeeList = function() {
+			return get(this.employeeListURL);
+		};
+
+		API.prototype.employeeDetails = function(id) {
+			var url = this.logListURL + "?id=" + id;
 			return get(url);
 		};
 
