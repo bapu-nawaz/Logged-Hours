@@ -3,7 +3,7 @@
 }
 
 div.table-heading span {
-	color: #000000;
+	color: #FFFFFF;
 	font-weight: bold;
 	font-size: 30px;
 	text-transform: uppercase;
@@ -18,4 +18,28 @@ div.md-list-item-text h3 {
 	font-size: 20px;
 	display: inline-block;
 	padding: 5px;
+}
+
+@media(max-width: 480px) {
+	div.table-heading span {
+		font-size: 20px;
+		white-space: nowrap;
+		overflow: hidden;
+		padding: 10px;
+	}
+	div.md-list-item-text h3 {
+		font-size: 14px;
+		vertical-align: bottom;
+		line-height: 40px;
+		text-align: center;
+	}
+	.md-button.md-fab {
+		width: 30px;
+		height: 30px;
+		text-align: center;
+		padding: 0px;
+	}
+	div.pay {
+		display: inline-table;
+	}
 }

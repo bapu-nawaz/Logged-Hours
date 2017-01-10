@@ -10,9 +10,11 @@ var app = angular
 	.config([					// creating a model to define screens for your app
 		'$urlRouterProvider',	// add Provider libraries to define state/url of your screens
 		'$stateProvider',
+		'$mdThemingProvider',
 		function (
 			$urp,
-			$sp) {
+			$sp,
+			$mdt) {
 
 				// special cases (un comment them to use as needed)
 				$urp.when('/dashboard','/dashboard/0/profile');
@@ -47,5 +49,15 @@ var app = angular
 							parent: 'dashboard',
 							templateUrl: 'views/dashboard/profile.html'
 						});
+
+				$mdt.theme('default')
+    				.primaryPalette('green')
+    				.accentPalette('yellow')
+    				.dark();
+    			$mdt.enableBrowserColor({
+				      theme: 'default', // Default is 'default'
+				      palette: 'primary', // Default is 'primary', any basic material palette and extended palettes are available
+				      hue: '800' // Default is '800'
+				    });
 		}
 	]);
